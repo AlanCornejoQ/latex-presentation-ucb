@@ -1,0 +1,101 @@
+% Archivo: beamerthemeucb.sty
+%  Template UCB
+%  Desarrollada por: Ing. Alan Cornejo                      %
+%  Universidad Católica Boliviana San Pablo – Sede Tarija   %
+%                                                           %
+%  Esta plantilla fue creada con fines académicos para      %
+%  facilitar presentaciones coherentes con la identidad     %
+%  institucional. Puede ser reutilizada y modificada        %
+%  libremente, agradeciendo mantener referencia al autor.   %
+%                                                           %
+%  Contacto: ecornejo@ucb.edu.bo                            %
+
+
+\ProvidesPackage{beamerthemeucb}
+
+% Paquetes necesarios
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{etoolbox}
+\RequirePackage[absolute,overlay]{textpos}
+\usepackage{helvet}
+\RequirePackage{eso-pic}
+% Inicialización de textpos
+\setlength{\TPHorizModule}{1pt}
+\setlength{\TPVertModule}{1pt}
+\textblockorigin{0pt}{0pt}
+
+% --- Colores por carrera ---
+\definecolor{ucbblueIMT}{HTML}{5576A1} % Mecatrónica
+\definecolor{ucbblueSIS}{HTML}{3CA5CF} % Sistemas
+\definecolor{ucbblueINB}{HTML}{2DB6A8} % Biomédica
+
+% Color de carrera dinámico (por defecto IMT)
+\newcommand{\setcarrera}[1]{%
+  \ifstrequal{#1}{SIS}{% Sistemas
+    \colorlet{ucbmain}{ucbblueSIS}%
+  }{% else
+    \ifstrequal{#1}{INB}{% Biomédica
+      \colorlet{ucbmain}{ucbblueINB}%
+    }{% default: IMT
+      \colorlet{ucbmain}{ucbblueIMT}%
+    }%
+  }%
+  % Derivados del color principal
+  \colorlet{ucbtitlesoftbg}{ucbmain!40}%
+  \colorlet{ucbtitlesoftborder}{ucbmain!50}%
+  \colorlet{ucbcoverbg}{ucbmain!15}% ← fondo de portada adaptable
+
+  % Aplicar a elementos del tema
+  \setbeamercolor{structure}{fg=ucbmain}
+  \setbeamercolor{frametitle}{fg=black,bg=ucbmain}
+  \setbeamercolor{item}{fg=ucbmain}
+  \setbeamercolor{titleblock}{bg=ucbtitlesoftbg, fg=black}
+  \setbeamercolor{normal text}{fg=black,bg=white}
+}
+
+% Comando personalizado para correo electrónico
+\newcommand{\email}[1]{\def\insertemail{#1}}
+\newcommand{\insertemail}{}
+
+% Tipografía
+\renewcommand{\familydefault}{\sfdefault}
+
+% Sin barra de navegación
+\beamertemplatenavigationsymbolsempty
+
+% Portada personalizada: título y autor encerrados, logo a la derecha fuera del recuadro
+\defbeamertemplate*{title page}{ucbtheme}[1][] {
+  \vspace*{1.5cm}
+  \begin{center}
+
+    \begin{columns}[T, totalwidth=1\paperwidth]
+      
+      % Columna izquierda: rectángulo con título y autor
+      \begin{column}{0.55\paperwidth}
+        \begin{beamercolorbox}[rounded=true, shadow=false, center,
+            leftskip=1em, rightskip=1em, wd=\linewidth]{titleblock}
+          {\usebeamerfont{title}\inserttitle\par}
+          \vspace{0.4cm}
+          {\usebeamerfont{author}\insertauthor\par}
+          {\small \texttt{\insertemail}\par}
+          \vspace{0.3cm}
+        \end{beamercolorbox}
+        \vspace{0.5cm}
+        {\usebeamerfont{institute}\insertinstitute\par}
+      \end{column}
+
+      % Columna derecha: logo fuera del rectángulo
+      \begin{column}{0.5\paperwidth}
+        \includegraphics[width=6cm]{Images/logo-ucb.png}
+      \end{column}
+
+    \end{columns}
+    {\insertdate\par}
+
+  \end{center}
+}
+
+
+\setbeamertemplate{title page}[ucbtheme]
+% Plantilla elaborada por Ing. Alan Cornejo – UCB Tarija (2025)
